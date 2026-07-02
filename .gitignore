@@ -1,9 +1,7 @@
-.classpath
-.project
-.iml
-/.settings/
-/bin/
-/target/
-/.idea/
-dependency-reduced-pom.xmlbuild/ 
+.idea/
+*.iml
 build/
+target/
+bin/
+.gradle/
+dependency-reduced-pom.xml
