@@ -105,7 +105,7 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
     public String getBugTrackerURL() {
         return "https://github.com/TheBusyBiscuit/SoulJars/issues";
     }
-
+    
     private ItemStack createCustomItem(ItemStack baseItem, String name, String... lore) {
         ItemStack item = baseItem.clone();
         org.bukkit.inventory.meta.ItemMeta meta = item.getItemMeta();

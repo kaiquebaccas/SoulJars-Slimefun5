@@ -1,0 +1,33 @@
+plugins {
+    `java`
+    // O plugin mágico que você encontrou na documentação
+    id("io.github.intisy.github-gradle") version "1.8.2.1"
+}
+
+// Configuração da versão do Java exigida pelo Slimefun 5
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    // Repositório do PaperMC (Necessário para a API do Paper)
+    maven("https://repo.papermc.io/repository/maven-public/")
+
+    // Note que removemos o JitPack e o GitHub Packages daqui!
+}
+
+dependencies {
+    // Dependência da API do Paper (versão 26.1.2 exigida)
+    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+
+    // Dependência do Slimefun 5 usando a sintaxe especial do github-gradle
+    "githubCompileOnly"("Slimefun5:Slimefun5:v5.2.3")
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
