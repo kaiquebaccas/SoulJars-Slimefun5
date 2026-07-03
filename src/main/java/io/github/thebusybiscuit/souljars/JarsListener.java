@@ -101,6 +101,9 @@ public class JarsListener implements Listener {
                 ItemMeta im = newJar.getItemMeta();
 
                 if (sfIdKey != null) {
+                    // Remove the Slimefun item ID so the jar becomes a regular Bukkit item.
+                    // This prevents Slimefun5 from rebuilding the ItemMeta and resetting the
+                    // captured soul count on newer Slimefun versions.
                     im.getPersistentDataContainer().remove(sfIdKey);
                 }
 

@@ -5,3 +5,4 @@ target/
 bin/
 .gradle/
 dependency-reduced-pom.xml
+*~

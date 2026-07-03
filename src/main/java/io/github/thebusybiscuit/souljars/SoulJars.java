@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.BrokenSpawner;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.UnplaceableBlock;
 import io.github.thebusybiscuit.slimefun5.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun5.libraries.dough.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 
@@ -36,10 +35,6 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
     @Override
     public void onEnable() {
         cfg = new Config(this);
-
-        if (cfg.getBoolean("options.auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-            new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/SoulJars/master").start();
-        }
 
         emptyJar = new SlimefunItemStack("SOUL_JAR", JAR_TEXTURE, "&bSoul Jar &7(Empty)", "", "&rKill a Mob while having this", "&rItem in your Inventory to bind", "&rtheir Soul to this Jar");
         itemGroup = new ItemGroup(new NamespacedKey(this, "soul_jars"), createCustomItem(Material.GLASS_BOTTLE, "&bSoul Jars", "", "&a> Click to open"));
@@ -103,7 +98,7 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
 
     @Override
     public String getBugTrackerURL() {
-        return "https://github.com/TheBusyBiscuit/SoulJars/issues";
+        return "https://github.com/kaiquebaccas/SoulJars-Slimefun5/issues";
     }
 
     private ItemStack createCustomItem(ItemStack baseItem, String name, String... lore) {
