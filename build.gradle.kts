@@ -3,6 +3,8 @@ plugins {
     id("io.github.intisy.github-gradle") version "1.8.2.1"
 }
 
+version = "1.1.0"
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
@@ -11,8 +13,9 @@ java {
 
 repositories {
     mavenCentral()
-
-    maven("https://repo.papermc.io/repository/maven-public/")
+    maven {
+        url = uri("https://repo.papermc.io/repository/maven-public/")
+    }
 }
 
 dependencies {
@@ -23,4 +26,11 @@ dependencies {
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+}
+
+tasks.processResources {
+    inputs.property("version", project.version)
+    filesMatching("plugin.yml") {
+        expand("version" to project.version)
+    }
 }
