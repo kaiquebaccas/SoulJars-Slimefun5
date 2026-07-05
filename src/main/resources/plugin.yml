@@ -1,9 +1,9 @@
 name: SoulJars
-version: ${project.version}
-author: TheBusyBiscuit
-website: https://github.com/TheBusyBiscuit/souljars
+version: ${version}
+authors: [TheBusyBiscuit, kaiquebaccas]
+website: https://github.com/kaiquebaccas/SoulJars-Slimefun5
 
-api-version: 1.14
+api-version: '26.1'
 main: io.github.thebusybiscuit.souljars.SoulJars
 
 depend:

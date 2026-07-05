@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Material;
-import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -19,8 +18,10 @@ import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.BrokenSpawner;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.UnplaceableBlock;
 import io.github.thebusybiscuit.slimefun5.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun5.libraries.dough.items.CustomItemStack;
 
 public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
 
@@ -37,8 +38,8 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
         cfg = new Config(this);
 
         emptyJar = new SlimefunItemStack("SOUL_JAR", JAR_TEXTURE, "&bSoul Jar &7(Empty)", "", "&rKill a Mob while having this", "&rItem in your Inventory to bind", "&rtheir Soul to this Jar");
-        itemGroup = new ItemGroup(new NamespacedKey(this, "soul_jars"), createCustomItem(Material.GLASS_BOTTLE, "&bSoul Jars", "", "&a> Click to open"));
-        recipeType = new RecipeType(new NamespacedKey(this, "mob_killing"), createCustomItem(Material.DIAMOND_SWORD, "&cKill the specified Mob", "&cwhile having an empty Soul Jar", "&cin your Inventory"));
+        itemGroup = new ItemGroup(new NamespacedKey(this, "soul_jars"), CustomItemStack.create(emptyJar.item(), "&bSoul Jars", "", "&a> Click to open"));
+        recipeType = new RecipeType(new NamespacedKey(this, "mob_killing"), CustomItemStack.create(Material.DIAMOND_SWORD, "&cKill the specified Mob", "&cwhile having an empty Soul Jar", "&cin your Inventory"));
 
         new SlimefunItem(itemGroup, emptyJar, RecipeType.ANCIENT_ALTAR, new ItemStack[] { SlimefunItems.EARTH_RUNE.asOne(), new ItemStack(Material.SOUL_SAND), SlimefunItems.WATER_RUNE.asOne(), new ItemStack(Material.SOUL_SAND), SlimefunItems.NECROTIC_SKULL.asOne(), new ItemStack(Material.SOUL_SAND), SlimefunItems.AIR_RUNE.asOne(), new ItemStack(Material.SOUL_SAND), SlimefunItems.FIRE_RUNE.asOne() }, emptyJar.asQuantity(3)).register(this);
         new JarsListener(this);
@@ -70,12 +71,12 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
         // @formatter:off
         SlimefunItemStack jarItem = new SlimefunItemStack(type.name() + "_SOUL_JAR", JAR_TEXTURE, "&cSoul Jar &7(" + name + ")", "", "&7Infused Souls: &e1");
         SlimefunItem jar = new UnplaceableBlock(itemGroup, jarItem, recipeType,
-                new ItemStack[] { null, null, null, emptyJar.asOne(), null, createCustomItem(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
+                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
         jar.register(this);
 
         SlimefunItemStack filledJarItem = new SlimefunItemStack("FILLED_" + type.name() + "_SOUL_JAR", JAR_TEXTURE, "&cFilled Soul Jar &7(" + name + ")", "", "&7Infused Souls: &e" + souls);
         SlimefunItem filledJar = new FilledJar(itemGroup, filledJarItem, recipeType,
-                new ItemStack[] { null, null, null, emptyJar.asOne(), null, createCustomItem(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
+                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
         filledJar.register(this);
 
         BrokenSpawner brokenSpawner = SlimefunItems.BROKEN_SPAWNER.getItem(BrokenSpawner.class);
@@ -101,26 +102,4 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
         return "https://github.com/kaiquebaccas/SoulJars-Slimefun5/issues";
     }
 
-    private ItemStack createCustomItem(ItemStack baseItem, String name, String... lore) {
-        ItemStack item = baseItem.clone();
-        org.bukkit.inventory.meta.ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(org.bukkit.ChatColor.translateAlternateColorCodes('&', name));
-        java.util.List<String> translatedLore = new java.util.ArrayList<>();
-        for (String line : lore) {
-            translatedLore.add(org.bukkit.ChatColor.translateAlternateColorCodes('&', line));
-        }
-        meta.setLore(translatedLore);
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    private ItemStack createCustomItem(Material material, String name, String... lore) {
-        return createCustomItem(new ItemStack(material), name, lore);
-    }
-
-    private ItemStack createCustomItem(ItemStack baseItem, int amount) {
-        ItemStack item = baseItem.clone();
-        item.setAmount(amount);
-        return item;
-    }
 }
