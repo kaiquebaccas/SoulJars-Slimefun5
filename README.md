@@ -1,6 +1,6 @@
 # SoulJars (Slimefun5 Port)
 
-*This is an unofficial port of the original SoulJars addon by TheBusyBiscuit, updated for compatibility with Slimefun5.*
+*This is an unofficial port of the original [SoulJars addon by TheBusyBiscuit](https://github.com/Slimefun-Addon-Community/SoulJars), updated for compatibility with Slimefun5.*
 
 SoulJars is a [Slimefun5](https://github.com/Slimefun5/Slimefun5) addon.
 You need to install Slimefun5 in order for this plugin to work.
@@ -18,8 +18,6 @@ It introduces special items called Soul Jars, which allow players to capture mob
 These Soul Jars can then be used to craft Broken Spawners, repair them, and ultimately create spawners for the captured mob type.
 
 Individual Soul Jars can be enabled or disabled through the plugin configuration.
-
-[Read more about the mechanics...](https://github.com/TheBusyBiscuit/Slimefun4/wiki/SoulJars)
 
 ## Download
 
