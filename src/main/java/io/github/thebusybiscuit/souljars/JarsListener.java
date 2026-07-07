@@ -140,10 +140,11 @@ public class JarsListener implements Listener {
      */
     private void updateSoulsLore(ItemMeta im, int souls) {
         List<String> lore = im.getLore() != null ? im.getLore() : new ArrayList<>();
-        String line = ChatColor.translateAlternateColorCodes('&', "&7Infused Souls: &e" + souls);
+        String line = ChatColor.translateAlternateColorCodes('&', plugin.getSoulsLineTemplate().replace("%souls%", String.valueOf(souls)));
+        String marker = plugin.getSoulsLineMarker();
 
         for (int i = 0; i < lore.size(); i++) {
-            if (ChatColor.stripColor(lore.get(i)).toLowerCase(Locale.ROOT).contains("infused souls")) {
+            if (!marker.isEmpty() && ChatColor.stripColor(lore.get(i)).toLowerCase(Locale.ROOT).contains(marker)) {
                 lore.set(i, line);
                 im.setLore(lore);
                 return;

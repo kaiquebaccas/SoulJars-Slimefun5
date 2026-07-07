@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.souljars;
 
 import java.util.EnumMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
@@ -36,9 +38,20 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
     private RecipeType recipeType;
     private SlimefunItemStack emptyJar;
 
+    private String recipeHintTemplate;
+    private String soulsLineTemplate;
+    private String soulsLineMarker;
+
     @Override
     public void onEnable() {
         cfg = new Config(this);
+
+        // Display templates live in config.yml (admin-editable / translatable) rather than hardcoded here.
+        recipeHintTemplate = cfg.getOrSetDefault("messages.recipe-hint", "&rKill %count%x %mob%");
+        soulsLineTemplate = cfg.getOrSetDefault("messages.infused-souls", "&7Infused Souls: &e%souls%");
+        // The literal text before %souls% is how JarsListener finds the counter line to update it.
+        soulsLineMarker = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',
+                soulsLineTemplate.split("%souls%", 2)[0])).trim().toLowerCase(Locale.ROOT);
 
         // id-only stacks: names/lore come from languages/<lang>/items.yml (see the SOUL_JAR entry and the
         // "%MOB%_SOUL_JAR" families), so nothing is hardcoded in English here.
@@ -83,15 +96,17 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
             mobEgg = MaterialCompat.stack(XMaterial.ZOMBIE_SPAWN_EGG);
         }
 
+        String recipeHint = recipeHintTemplate.replace("%count%", String.valueOf(souls)).replace("%mob%", name);
+
         // @formatter:off
         SlimefunItemStack jarItem = new SlimefunItemStack(type.name() + "_SOUL_JAR", JAR_TEXTURE);
         SlimefunItem jar = new UnplaceableBlock(itemGroup, jarItem, recipeType,
-                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
+                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, recipeHint), null, null, null });
         jar.register(this);
 
         SlimefunItemStack filledJarItem = new SlimefunItemStack("FILLED_" + type.name() + "_SOUL_JAR", JAR_TEXTURE);
         SlimefunItem filledJar = new FilledJar(itemGroup, filledJarItem, recipeType,
-                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, "&rKill " + souls + "x " + name), null, null, null });
+                new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, recipeHint), null, null, null });
         filledJar.register(this);
 
         BrokenSpawner brokenSpawner = SlimefunItems.BROKEN_SPAWNER.getItem(BrokenSpawner.class);
@@ -105,6 +120,16 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
 
     public Map<EntityType, Integer> getRequiredSouls() {
         return mobs;
+    }
+
+    /** The configured soul-counter lore template (contains %souls%). */
+    public String getSoulsLineTemplate() {
+        return soulsLineTemplate;
+    }
+
+    /** The lowercased, colour-stripped literal that identifies the soul-counter line for updating. */
+    public String getSoulsLineMarker() {
+        return soulsLineMarker;
     }
 
     @Override
