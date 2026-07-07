@@ -1,0 +1,31 @@
+SOUL_JAR:
+  name: '&bSoul Jar &7(Empty)'
+  type:
+  - '&7&oSoul Jar'
+  description:
+  - '&7A soul-binding vessel. Kill a mob while'
+  - '&7carrying it to bind their soul to this jar.'
+
+# Item families: "%MOB%" in the id captures the entity type, and "%mob%" in the text is replaced with
+# its humanized name (ZOMBIE -> Zombie), so every per-mob jar is localized from one template.
+'%MOB%_SOUL_JAR':
+  name: '&cSoul Jar &7(%mob%)'
+  type:
+  - '&7&oSoul Jar'
+  description:
+  - '&7Bound to %mob%. Keep slaying them'
+  - '&7to fill this jar with their souls.'
+
+'FILLED_%MOB%_SOUL_JAR':
+  name: '&cFilled Soul Jar &7(%mob%)'
+  type:
+  - '&7&oSoul Jar'
+  description:
+  - '&7A jar brimming with the souls of %mob%.'
+
+'%MOB%_BROKEN_SPAWNER':
+  name: '&cBroken Spawner &7(%mob%)'
+  type:
+  - '&7&oBroken Spawner'
+  description:
+  - '&7A broken spawner attuned to %mob%.'

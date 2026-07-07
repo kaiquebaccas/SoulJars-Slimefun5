@@ -3,7 +3,9 @@ version: ${version}
 authors: [TheBusyBiscuit, kaiquebaccas]
 website: https://github.com/kaiquebaccas/SoulJars-Slimefun5
 
-api-version: '26.1'
+# Low api-version so the single jar loads across 1.13 -> latest (older servers reject a newer
+# api-version; 1.8-1.12 ignore it entirely). Version-specific behaviour is handled at runtime.
+api-version: '1.13'
 main: io.github.thebusybiscuit.souljars.SoulJars
 
 depend:
