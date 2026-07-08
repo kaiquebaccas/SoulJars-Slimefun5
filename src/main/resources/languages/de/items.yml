@@ -1,0 +1,29 @@
+SOUL_JAR:
+  name: '&bSeelenglas &7(Leer)'
+  type:
+  - '&7&oSeelenglas'
+  description:
+  - '&7Ein seelenbindendes Gefäß. Töte einen Mob,'
+  - '&7während du es trägst, um seine Seele zu binden.'
+
+'%MOB%_SOUL_JAR':
+  name: '&cSeelenglas &7(%mob%)'
+  type:
+  - '&7&oSeelenglas'
+  description:
+  - '&7An %mob% gebunden. Töte sie weiter,'
+  - '&7um dieses Glas mit ihren Seelen zu füllen.'
+
+'FILLED_%MOB%_SOUL_JAR':
+  name: '&cGefülltes Seelenglas &7(%mob%)'
+  type:
+  - '&7&oSeelenglas'
+  description:
+  - '&7Ein Glas voller Seelen von %mob%.'
+
+'%MOB%_BROKEN_SPAWNER':
+  name: '&cKaputter Spawner &7(%mob%)'
+  type:
+  - '&7&oKaputter Spawner'
+  description:
+  - '&7Ein kaputter Spawner, auf %mob% eingestellt.'

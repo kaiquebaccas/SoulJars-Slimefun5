@@ -1,5 +1,10 @@
 options:
   auto-update: true
+# Display templates (server-wide, admin-editable so they can be translated). %count%/%mob% for the recipe
+# hint, %souls% for the jar's soul counter.
+messages:
+  recipe-hint: '&rKill %count%x %mob%'
+  infused-souls: '&7Infused Souls: &e%souls%'
 mobs:
 - BLAZE
 - CAVE_SPIDER

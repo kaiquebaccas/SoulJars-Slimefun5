@@ -1,36 +1,11 @@
 plugins {
-    `java`
+    java
+    id("com.gradleup.shadow") version "9.3.2"
     id("io.github.intisy.github-gradle") version "1.8.2.1"
 }
 
-version = "1.1.0"
+group = "io.github.thebusybiscuit.souljars"
+description = "SoulJars is a Slimefun addon that lets you capture the souls of slain mobs in jars."
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://repo.papermc.io/repository/maven-public/")
-    }
-}
-
-dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
-
-    "githubCompileOnly"("Slimefun5:Slimefun5:v5.2.3")
-}
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
-tasks.processResources {
-    inputs.property("version", project.version)
-    filesMatching("plugin.yml") {
-        expand("version" to project.version)
-    }
-}
+// Shared Slimefun-addon build conventions (Java 8, spigot-api baseline, core dep, publish, shadow, version).
+apply(from = "https://raw.githubusercontent.com/Slimefun5/gradle/stable/slimefun-addon.gradle")

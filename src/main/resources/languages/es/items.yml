@@ -1,0 +1,29 @@
+SOUL_JAR:
+  name: '&bTarro de almas &7(Vacío)'
+  type:
+  - '&7&oTarro de almas'
+  description:
+  - '&7Un recipiente para almas. Mata a un mob'
+  - '&7llevándolo para ligar su alma a este tarro.'
+
+'%MOB%_SOUL_JAR':
+  name: '&cTarro de almas &7(%mob%)'
+  type:
+  - '&7&oTarro de almas'
+  description:
+  - '&7Ligado a %mob%. Sigue matándolos'
+  - '&7para llenar este tarro con sus almas.'
+
+'FILLED_%MOB%_SOUL_JAR':
+  name: '&cTarro de almas lleno &7(%mob%)'
+  type:
+  - '&7&oTarro de almas'
+  description:
+  - '&7Un tarro rebosante de almas de %mob%.'
+
+'%MOB%_BROKEN_SPAWNER':
+  name: '&cGenerador roto &7(%mob%)'
+  type:
+  - '&7&oGenerador roto'
+  description:
+  - '&7Un generador roto sintonizado con %mob%.'

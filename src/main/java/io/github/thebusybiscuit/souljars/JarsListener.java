@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.souljars;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,19 +14,21 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.libraries.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 public class JarsListener implements Listener {
 
     private final SoulJars plugin;
     private final SlimefunItem emptyJar;
 
+    // Cross-version PDC (dough NamespacedKey + PdcCompat) so this loads on 1.8 - 26.x; the modern
+    // ItemMeta#getPersistentDataContainer API does not exist on legacy servers.
     private final NamespacedKey soulsKey;
     private final NamespacedKey mobKey;
-    private final NamespacedKey sfIdKey = NamespacedKey.fromString("slimefun:slimefun_item");
 
     public JarsListener(SoulJars plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -66,19 +69,19 @@ public class JarsListener implements Listener {
 
             ItemMeta im = stack.getItemMeta();
 
-            if (!im.getPersistentDataContainer().has(soulsKey, PersistentDataType.INTEGER)) {
+            if (!PdcCompat.has(im, soulsKey, "INTEGER")) {
                 continue;
             }
 
-            String jarMob = im.getPersistentDataContainer().get(mobKey, PersistentDataType.STRING);
+            String jarMob = PdcCompat.getString(im, mobKey);
             if (!e.getEntityType().name().equals(jarMob)) {
                 continue;
             }
 
-            int souls = im.getPersistentDataContainer().getOrDefault(soulsKey, PersistentDataType.INTEGER, 0) + 1;
+            int souls = PdcCompat.getInt(im, soulsKey, 0) + 1;
             int requiredSouls = mobs.get(e.getEntityType());
 
-            if (souls >= requiredSouls) {
+            if (souls >= requiredSouls && filledJar != null) {
                 if (stack.getAmount() > 1) {
                     stack.setAmount(stack.getAmount() - 1);
                     killer.getInventory().addItem(filledJar.getItem().clone());
@@ -86,7 +89,7 @@ public class JarsListener implements Listener {
                     killer.getInventory().setItem(slot, filledJar.getItem().clone());
                 }
             } else {
-                im.getPersistentDataContainer().set(soulsKey, PersistentDataType.INTEGER, souls);
+                PdcCompat.setInt(im, soulsKey, souls);
                 updateSoulsLore(im, souls);
 
                 if (stack.getAmount() > 1) {
@@ -119,15 +122,8 @@ public class JarsListener implements Listener {
             ItemStack newJar = jar.getItem().clone();
             ItemMeta im = newJar.getItemMeta();
 
-            if (sfIdKey != null) {
-                // Remove the Slimefun item ID so the jar becomes a regular Bukkit item.
-                // This prevents Slimefun5 from rebuilding the ItemMeta and resetting the
-                // captured soul count on newer Slimefun versions.
-                im.getPersistentDataContainer().remove(sfIdKey);
-            }
-
-            im.getPersistentDataContainer().set(soulsKey, PersistentDataType.INTEGER, 1);
-            im.getPersistentDataContainer().set(mobKey, PersistentDataType.STRING, e.getEntityType().name());
+            PdcCompat.setInt(im, soulsKey, 1);
+            PdcCompat.setString(im, mobKey, e.getEntityType().name());
             updateSoulsLore(im, 1);
 
             newJar.setItemMeta(im);
@@ -137,23 +133,32 @@ public class JarsListener implements Listener {
         }
     }
 
+    /**
+     * Sets the "Infused Souls" display line to the given count, replacing the existing one if present
+     * (identified by the "Infused Souls" marker JarsListener itself writes) or appending it otherwise.
+     * The authoritative count lives in persistent data; this line is purely cosmetic.
+     */
     private void updateSoulsLore(ItemMeta im, int souls) {
-        List<String> lore = im.getLore();
-        if (lore == null || lore.size() <= 1) {
-            return;
+        List<String> lore = im.getLore() != null ? im.getLore() : new ArrayList<>();
+        String line = ChatColor.translateAlternateColorCodes('&', plugin.getSoulsLineTemplate().replace("%souls%", String.valueOf(souls)));
+        String marker = plugin.getSoulsLineMarker();
+
+        for (int i = 0; i < lore.size(); i++) {
+            if (!marker.isEmpty() && ChatColor.stripColor(lore.get(i)).toLowerCase(Locale.ROOT).contains(marker)) {
+                lore.set(i, line);
+                im.setLore(lore);
+                return;
+            }
         }
 
-        String originalLine = ChatColor.stripColor(lore.get(1));
-        String prefix = originalLine.contains(":") ? originalLine.split(":")[0] : "Souls";
-        lore.set(1, ChatColor.translateAlternateColorCodes('&', "&7" + prefix + ": &e" + souls));
+        lore.add(line);
         im.setLore(lore);
     }
 
     @EventHandler
     public void onJarPlace(BlockPlaceEvent e) {
         ItemStack item = e.getItemInHand();
-        if (item != null && item.hasItemMeta()
-                && item.getItemMeta().getPersistentDataContainer().has(soulsKey, PersistentDataType.INTEGER)) {
+        if (item != null && item.hasItemMeta() && PdcCompat.has(item.getItemMeta(), soulsKey, "INTEGER")) {
             e.setCancelled(true);
         }
     }
