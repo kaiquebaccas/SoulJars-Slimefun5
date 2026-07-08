@@ -24,7 +24,7 @@ plugins {
 }
 
 dependencies {
-    "githubCompileOnly"("Slimefun5:SoulJars:v1.1.0-slimefun5")
+    "githubCompileOnly"("Slimefun5:SoulJars:v1.1.1")
 }
 ```
 
