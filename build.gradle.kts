@@ -1,6 +1,6 @@
 plugins {
     java
-    id("com.gradleup.shadow") version "9.3.2"
+    id("com.gradleup.shadow") version "9.5.1"
     id("io.github.intisy.github-gradle") version "1.8.2.1"
 }
 
