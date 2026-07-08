@@ -5,7 +5,7 @@
 [![GitHub Followers](https://img.shields.io/github/followers/Slimefun5?style=social)](https://github.com/Slimefun5)
 [![GitHub Stars](https://img.shields.io/github/stars/Slimefun5/SoulJars?style=social)](https://github.com/Slimefun5/SoulJars)
 
-A Slimefun 5 Addon.
+SoulJars is a Slimefun addon that lets you capture the souls of slain mobs in jars.
 
 ## Requirements
 - Java 25
