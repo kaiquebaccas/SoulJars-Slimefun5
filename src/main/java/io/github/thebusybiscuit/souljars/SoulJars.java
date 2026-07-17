@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.souljars;
 import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -71,8 +70,9 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
             try {
                 EntityType type = EntityType.valueOf(mob);
                 registerSoul(type);
-            } catch (Exception x) {
-                getLogger().log(Level.WARNING, "{0}: Possibly invalid mob type: {1}", new Object[] { x.getClass().getSimpleName(), mob });
+            } catch (IllegalArgumentException x) {
+                // Mob doesn't exist on this MC version (e.g. DROWNED/EVOKER/FOX on 1.8) - silently
+                // skip it, no per-mob warning spam; its soul jar simply isn't registered here.
             }
         }
 
