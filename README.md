@@ -1,31 +1,47 @@
-# SoulJars (Slimefun5 Port)
+# SoulJars
 
-*This is an unofficial port of the original [SoulJars addon by TheBusyBiscuit](https://github.com/Slimefun-Addon-Community/SoulJars), updated for compatibility with Slimefun5.*
+[![Build Status](https://Slimefun5.github.io/builds/Slimefun5/SoulJars/stable/badge.svg)](https://Slimefun5.github.io/builds/Slimefun5/SoulJars/stable)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Slimefun5/SoulJars/total)
+[![GitHub Followers](https://img.shields.io/github/followers/Slimefun5?style=social)](https://github.com/Slimefun5)
+[![GitHub Stars](https://img.shields.io/github/stars/Slimefun5/SoulJars?style=social)](https://github.com/Slimefun5/SoulJars)
 
-SoulJars is a [Slimefun5](https://github.com/Slimefun5/Slimefun5) addon.
-You need to install Slimefun5 in order for this plugin to work.
+SoulJars is a Slimefun addon that lets you capture the souls of slain mobs in jars.
 
-### Requirements
+## Requirements
+- Java 25
+- Paper 1.16.* - 26.1.*
+- [Slimefun 5](https://github.com/Slimefun5/Slimefun5)
 
-* **Java 25**
-* **Paper 26.1.2**
+## Developer API
 
-## About
+You can easily depend on this project using [github-gradle](https://github.com/intisy/github-gradle).
 
-SoulJars is a Slimefun5 addon heavily inspired by the [SoulShards](https://www.curseforge.com/minecraft/mc-mods/soul-shards-respawn) mod.
-It introduces special items called Soul Jars, which allow players to capture mob souls.
+In your `build.gradle.kts`:
 
-These Soul Jars can then be used to craft Broken Spawners, repair them, and ultimately create spawners for the captured mob type.
+```kotlin
+plugins {
+    id("io.github.intisy.github-gradle") version "1.8.2.1"
+}
 
-Individual Soul Jars can be enabled or disabled through the plugin configuration.
+dependencies {
+    "githubCompileOnly"("Slimefun5:SoulJars:v1.1.7")
+}
+```
 
-## Download
+## Wiki
 
-You can download the latest release from the [Releases](../../releases) section of this repository.
+[Read more on the Slimefun Wiki...](https://github.com/Slimefun5/Wiki/wiki/SoulJars)
 
-## Open Source & Credits
+## Discord
 
-This project is open-source and licensed under the [MIT License](LICENSE).
+You can find Slimefun's community on Discord! Click the badge below to join the server for suggestions/questions or other discussions about this plugin.
 
-Original addon developed by TheBusyBiscuit and the Slimefun Addon Community.
-This repository contains an unofficial port maintained for Slimefun5 compatibility.
+<p align="center">
+  <a href="https://discord.gg/CbBYZBEWdR">
+    <img src="https://discordapp.com/api/guilds/738626600539160576/widget.png?style=banner2" alt="Discord"/>
+  </a>
+</p>
+
+## License
+
+This project is open-source and licensed under the MIT License.
