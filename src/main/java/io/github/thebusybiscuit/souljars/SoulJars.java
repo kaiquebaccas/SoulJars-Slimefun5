@@ -60,10 +60,12 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
 
         recipeType = new RecipeType(new NamespacedKey(this, "mob_killing"), CustomItemStack.create(Material.DIAMOND_SWORD, "&cKill the specified Mob", "&cwhile having an empty Soul Jar", "&cin your Inventory"));
 
-        new SlimefunItem(itemGroup, emptyJar, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
+        SlimefunItem emptyJarItem = new SlimefunItem(itemGroup, emptyJar, RecipeType.ANCIENT_ALTAR, new ItemStack[] {
                 SlimefunItems.EARTH_RUNE.asOne(), MaterialCompat.stack(XMaterial.SOUL_SAND), SlimefunItems.WATER_RUNE.asOne(),
                 MaterialCompat.stack(XMaterial.SOUL_SAND), SlimefunItems.NECROTIC_SKULL.asOne(), MaterialCompat.stack(XMaterial.SOUL_SAND),
-                SlimefunItems.AIR_RUNE.asOne(), MaterialCompat.stack(XMaterial.SOUL_SAND), SlimefunItems.FIRE_RUNE.asOne() }, emptyJar.asQuantity(3)).register(this);
+                SlimefunItems.AIR_RUNE.asOne(), MaterialCompat.stack(XMaterial.SOUL_SAND), SlimefunItems.FIRE_RUNE.asOne() }, emptyJar.asQuantity(3));
+        emptyJarItem.setGuideType("magic");
+        emptyJarItem.register(this);
         new JarsListener(this);
 
         for (String mob : cfg.getStringList("mobs")) {
@@ -102,19 +104,23 @@ public class SoulJars extends JavaPlugin implements Listener, SlimefunAddon {
         SlimefunItemStack jarItem = new SlimefunItemStack(type.name() + "_SOUL_JAR", JAR_TEXTURE);
         SlimefunItem jar = new UnplaceableBlock(itemGroup, jarItem, recipeType,
                 new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, recipeHint), null, null, null });
+        jar.setGuideType("magic");
         jar.register(this);
 
         SlimefunItemStack filledJarItem = new SlimefunItemStack("FILLED_" + type.name() + "_SOUL_JAR", JAR_TEXTURE);
         SlimefunItem filledJar = new FilledJar(itemGroup, filledJarItem, recipeType,
                 new ItemStack[] { null, null, null, emptyJar.asOne(), null, CustomItemStack.create(mobEgg, recipeHint), null, null, null });
+        filledJar.setGuideType("magic");
         filledJar.register(this);
 
         BrokenSpawner brokenSpawner = SlimefunItems.BROKEN_SPAWNER.getItem(BrokenSpawner.class);
 
         SlimefunItemStack spawnerItem = new SlimefunItemStack(type.toString() + "_BROKEN_SPAWNER", XMaterial.SPAWNER.parseMaterial());
-        new SlimefunItem(itemGroup, spawnerItem, RecipeType.ANCIENT_ALTAR,
+        SlimefunItem brokenSpawnerItem = new SlimefunItem(itemGroup, spawnerItem, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] { MaterialCompat.stack(XMaterial.IRON_BARS), SlimefunItems.EARTH_RUNE.asOne(), MaterialCompat.stack(XMaterial.IRON_BARS), SlimefunItems.EARTH_RUNE.asOne(), filledJarItem.asOne(), SlimefunItems.EARTH_RUNE.asOne(), MaterialCompat.stack(XMaterial.IRON_BARS), SlimefunItems.EARTH_RUNE.asOne(), MaterialCompat.stack(XMaterial.IRON_BARS) },
-        brokenSpawner.getItemForEntityType(type)).register(this);
+        brokenSpawner.getItemForEntityType(type));
+        brokenSpawnerItem.setGuideType("magic");
+        brokenSpawnerItem.register(this);
         // @formatter:on
     }
 
